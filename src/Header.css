@@ -1,0 +1,10 @@
+.header {
+    display: flex;
+    align-items: center;
+    margin: 40px 10px;
+}
+
+.header__name {
+    align-items: flex-start;
+    margin: 0 15px;
+}
