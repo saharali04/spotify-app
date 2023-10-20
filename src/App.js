@@ -4,6 +4,7 @@ import { useDataLayerValue } from "./DataLayer";
 import SpotifyWebApi from "spotify-web-api-js";
 import Login from './Login.js';
 import { getTokenFromUrl } from "./spotify";
+import Dashboard from './Dashboard';
 
 const spotify = new SpotifyWebApi();
 
@@ -22,7 +23,16 @@ function App() {
       })
       
       spotify.setAccessToken(_token);
+
+      spotify.getMe().then(user => {
+        dispatch({
+          type: 'SET_USER',
+          user: user
+        })
+
+      });
     }
+
     console.log('I HAVE A TOKEN: ', token);
   }, );
 
@@ -30,7 +40,7 @@ function App() {
     <div className="app">
       {
         token ? (
-          <div> I am logged in </div>
+          <Dashboard spotify={spotify}/>
         ) : (
           <Login />
         )
