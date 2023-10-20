@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Login.css';
 import { loginUrl } from './spotify';
+import { generateRandomString, generateCodeChallenge } from './spotify';
 
 function Login() {
+  const [codeChallenge, setCodeChallenge] = useState(null);
+  
+  useEffect(() => {
+    var codeVerifier = generateRandomString(128);
+    
+    generateCodeChallenge(codeVerifier).then(codeChallenge => {
+      setCodeChallenge(codeChallenge);
+    });
+    
+  }, [codeChallenge]);
+  
+  const handleClick = () => {
+    window.location.replace(loginUrl + codeChallenge)
+   
+  }
+  
   return (
     <div className="login">
         <img 
@@ -11,7 +28,7 @@ function Login() {
           height={150} 
           alt=""
         />
-        <a href={loginUrl}>LOGIN WITH SPOTIFY</a>
+        <button onClick={handleClick}>LOGIN WITH SPOTIFY</button>
     </div>
   )
 }
